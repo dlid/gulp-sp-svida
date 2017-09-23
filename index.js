@@ -74,7 +74,6 @@ var SPSvidaPlugin = (function () {
     }
 
     return {
-        preview : preview,
         install : install,
         uninstall : uninstall
     }
