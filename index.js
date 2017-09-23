@@ -82,5 +82,6 @@ var SPSvidaPlugin = (function () {
 }());
 
 module.exports = {
-    preview: SPSvidaPlugin.preview
+    install: SPSvidaPlugin.install,
+    uninstall: SPSvidaPlugin.install
 };
