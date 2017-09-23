@@ -1,18 +1,19 @@
 {
   "name": "gulp-sp-svida",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Gulp plugin to deploy SharePoint Assets using sp-svida",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository" : {
-  	"type" : "git",
-  	"url" : "https://github.com/dlid/gulp-sp-svida"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dlid/gulp-sp-svida"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "extend": "^3.0.1",
     "gulp-util": "^3.0.8",
     "path": "^0.12.7",
     "through": "^2.3.8",

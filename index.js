@@ -1,18 +1,15 @@
 ﻿var through = require('through2'),
     gutil = require('gulp-util'),
     spawn = require('child_process').spawn,
+    extend = require('extend'),
     PluginError = gutil.PluginError;
 
 const PLUGIN_NAME = 'gulp-sp-svida',
-    EXE_PATH = __dirname + 'bin\\sp-svida.exe', // bin later
-    filename = __dirname;
-
+      EXE_PATH = __dirname + '\\bin\\sp-svida.exe',
+      filename = __dirname;
 var SPSvidaPlugin = (function () {
 
-
-    function preview() {
-
-        //gutil.log('stuff happened', 'Really it did', gutil.colors.magenta('123'));
+    function runSPSvida(options) {
 
         function doit() {
             return "";
@@ -20,41 +17,66 @@ var SPSvidaPlugin = (function () {
 
         return through.obj(function (file, encoding, callback) {
 
-
             var parameters = [
-                'preview',
-                '/config="' + file.path + '"',
-                "/enterKey"
+                    options.action,
+                    '/config="' + file.path + '"',
                 ],
                 child;
+
+            if (options.enterKey && options.enterKey == true) parameters.push("/enterKey");
+            if (options.skipUpload && options.skipUpload == true) parameters.push("/skipUpload");
+            if (options.skipInject && options.skipInject == true) parameters.push("/skipInject");
+            if (options.preview && options.preview == true) parameters.push("/preview");
+            if (options.purge && options.purge == true) parameters.push("/purge");
+
+            gutil.log(  EXE_PATH + ' ' + parameters.join(' '));
 
             child = spawn(EXE_PATH, parameters);
 
             child.on('exit', function (code, signal) {
                 gutil.log('Child process exited with ${code} and signal ${signal}');
+                child.kill();
             });
 
             child.stdout.on('data', (data) => {
-                gutil.log(`child stdout:\n${data}`);
+                gutil.log(`${data}`);
             });
 
             child.stderr.on('data', (data) => {
                 gutil.log(`child stderr:\n${data}`);
-                child.kill();
             });
-
-
-            gutil.log(EXE_PATH + ' preview /config="' + file.path + '"', 'Really it did', gutil.colors.magenta('123'));
-
 
             callback(null, doit(file));
         });
+    }
 
+    function install(settings) {
+        var options = extend({
+            action : 'deploy',
+            enterKey : false,
+            skipUpload : false,
+            skipInject : false,
+            preview : false
+        }, settings);
+        return runSPSvida(options);
+    }
 
+    function uninstall(settings) {
+        var options = extend({
+            action : 'uninstall',
+            enterKey : false,
+            skipUpload : false,
+            skipInject : false,
+            preview : false,
+            purge : false
+        }, settings);
+        return runSPSvida(options);
     }
 
     return {
-        preview : preview
+        preview : preview,
+        install : install,
+        uninstall : uninstall
     }
 
 
