@@ -52,7 +52,7 @@ var SPSvidaPlugin = (function () {
 
     function install(settings) {
         var options = extend({
-            action : 'deploy',
+            action : 'install',
             enterKey : false,
             skipUpload : false,
             skipInject : false,
