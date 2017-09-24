@@ -5,8 +5,9 @@
     PluginError = gutil.PluginError;
 
 const PLUGIN_NAME = 'gulp-sp-svida',
-      EXE_PATH = __dirname + '\\bin\\sp-svida.exe',
-      filename = __dirname;
+      EXE_PATH = __dirname + '\\bin\\sp-svida.exe';
+
+      
 var SPSvidaPlugin = (function () {
 
     function runSPSvida(options) {
@@ -24,10 +25,18 @@ var SPSvidaPlugin = (function () {
                 child;
 
             if (options.enterKey && options.enterKey == true) parameters.push("/enterKey");
-            if (options.skipUpload && options.skipUpload == true) parameters.push("/skipUpload");
-            if (options.skipInject && options.skipInject == true) parameters.push("/skipInject");
-            if (options.preview && options.preview == true) parameters.push("/preview");
-            if (options.purge && options.purge == true) parameters.push("/purge");
+
+            if (options.action == "uninstall" || options.actions == "install") {
+                if (options.preview && options.preview == true) parameters.push("/preview");
+                if (options.skipUpload && options.skipUpload == true) parameters.push("/skipUpload");
+                if (options.skipInject && options.skipInject == true) parameters.push("/skipInject");
+            }
+            if (options.action == "uninstall") {
+                if (options.purge && options.purge == true) parameters.push("/purge");
+            }
+            if (options.action == "install") {
+                if (options.purge && options.purge == true) parameters.push("/force");
+            }
 
             gutil.log(  EXE_PATH + ' ' + parameters.join(' '));
 
@@ -56,7 +65,8 @@ var SPSvidaPlugin = (function () {
             enterKey : false,
             skipUpload : false,
             skipInject : false,
-            preview : false
+            preview : false,
+            force : false
         }, settings);
         return runSPSvida(options);
     }
@@ -76,8 +86,7 @@ var SPSvidaPlugin = (function () {
     return {
         install : install,
         uninstall : uninstall
-    }
-
+    };
 
 }());
 

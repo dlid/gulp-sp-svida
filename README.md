@@ -37,12 +37,12 @@ gulp.task('install-production-preview', function() {
 
 gulp.task('uninstall-production', function() {
  return gulp.src('prod.sp-svida')
- .pipe(svida.deploy());
+ .pipe(svida.uninstall());
 });
 
 gulp.task('uninstall-production-preview', function() {
  return gulp.src('prod.sp-svida')
- .pipe(svida.deploy({ preview : true ));
+ .pipe(svida.uninstall({ preview : true ));
 });
 
 ```
