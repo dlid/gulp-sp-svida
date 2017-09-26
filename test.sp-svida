@@ -1,0 +1,27 @@
+{
+  "name": "sp-svida.test",
+  "source_root_path": "bin",
+  "target_site": {
+   "url" : "localhost",
+   "username" : "david",
+   "password" : "nah",
+   "domain" : "CORPORATE"
+  },
+  "target_root_path": "bin",
+  "injection": [
+    {
+      "type": "site",
+      "urls": [
+        "/",
+        "/shared" 
+      ],
+      "scripts": [
+        {
+          "name": "js/test.js",
+          "sequence": 5,
+          "type" : "external"
+        }
+      ]
+    }
+  ]
+}

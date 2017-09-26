@@ -2,7 +2,8 @@
     gutil = require('gulp-util'),
     spawn = require('child_process').spawn,
     extend = require('extend'),
-    PluginError = gutil.PluginError;
+    PluginError = gutil.PluginError,
+    path = require('path');
 
 const PLUGIN_NAME = 'gulp-sp-svida',
       EXE_PATH = __dirname + '\\bin\\sp-svida.exe';
@@ -15,7 +16,6 @@ var SPSvidaPlugin = (function () {
         function doit() {
             return "";
         }
-
         return through.obj(function (file, encoding, callback) {
 
             var parameters = [
@@ -23,6 +23,11 @@ var SPSvidaPlugin = (function () {
                     '/config="' + file.path + '"',
                 ],
                 child;
+
+            var logFilename = path.dirname(file.path) + path.sep + path.basename(file.path) + ".log"; 
+
+            if (options.log === true) 
+                parameters.push('/logFile="' + logFilename + '"');
 
             if (options.enterKey && options.enterKey == true) parameters.push("/enterKey");
 
@@ -43,8 +48,9 @@ var SPSvidaPlugin = (function () {
             child = spawn(EXE_PATH, parameters);
 
             child.on('exit', function (code, signal) {
-                gutil.log('Child process exited with ${code} and signal ${signal}');
+                gutil.log("Child process exited with code " + code + (signal?" and signal " + signal : ""));
                 child.kill();
+                callback(null, doit(file));
             });
 
             child.stdout.on('data', (data) => {
@@ -55,7 +61,7 @@ var SPSvidaPlugin = (function () {
                 gutil.log(`child stderr:\n${data}`);
             });
 
-            callback(null, doit(file));
+            
         });
     }
 
@@ -66,7 +72,8 @@ var SPSvidaPlugin = (function () {
             skipUpload : false,
             skipInject : false,
             preview : false,
-            force : false
+            force : false,
+            log : true
         }, settings);
         return runSPSvida(options);
     }
@@ -78,7 +85,8 @@ var SPSvidaPlugin = (function () {
             skipUpload : false,
             skipInject : false,
             preview : false,
-            purge : false
+            purge : false,
+            log : true
         }, settings);
         return runSPSvida(options);
     }
