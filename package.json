@@ -13,14 +13,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "extend": "^3.0.1",
-    "gulp": "^3.9.1",
-    "gulp-util": "^3.0.8",
-    "path": "^0.12.7",
-    "through": "^2.3.8",
-    "through2": "^2.0.3"
+    "gulp": "^3.9.1"
   },
   "dependencies": {
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "gulp-util": "^3.0.8",
+    "through2": "^2.0.3",
+    "extend": "^3.0.1"
   }
 }
