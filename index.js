@@ -42,6 +42,8 @@ var SPSvidaPlugin = (function () {
             if (options.action == "install") {
                 if (options.purge && options.purge == true) parameters.push("/force");
             }
+            
+            if (options.soothing && parseInt(options.soothing, 10) != 0) parameters.push("/soothing=" + parseInt(options.soothing, 10));
 
             gutil.log(  EXE_PATH + ' ' + parameters.join(' '));
 
@@ -73,7 +75,8 @@ var SPSvidaPlugin = (function () {
             skipInject : false,
             preview : false,
             force : false,
-            log : true
+            log : true,
+            soothing : 0
         }, settings);
         return runSPSvida(options);
     }
@@ -86,19 +89,33 @@ var SPSvidaPlugin = (function () {
             skipInject : false,
             preview : false,
             purge : false,
-            log : true
+            log : true,
+            soothing : 0
+        }, settings);
+        return runSPSvida(options);
+    }
+
+    function features(settings) {
+        var options = extend({
+            action : 'features',
+            enterKey : false,
+            preview : false,
+            log : true,
+            soothing : 0
         }, settings);
         return runSPSvida(options);
     }
 
     return {
         install : install,
-        uninstall : uninstall
+        uninstall : uninstall,
+        features : features
     };
 
 }());
 
 module.exports = {
     install: SPSvidaPlugin.install,
-    uninstall: SPSvidaPlugin.uninstall
+    uninstall: SPSvidaPlugin.uninstall,
+    features : SPSvidaPlugin.features
 };
