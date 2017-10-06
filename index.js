@@ -31,7 +31,7 @@ var SPSvidaPlugin = (function () {
 
             if (options.enterKey && options.enterKey == true) parameters.push("/enterKey");
 
-            if (options.action == "uninstall" || options.actions == "install") {
+            if (options.action == "uninstall" || options.action == "install") {
                 if (options.preview && options.preview == true) parameters.push("/preview");
                 if (options.skipUpload && options.skipUpload == true) parameters.push("/skipUpload");
                 if (options.skipInject && options.skipInject == true) parameters.push("/skipInject");
@@ -40,7 +40,7 @@ var SPSvidaPlugin = (function () {
                 if (options.purge && options.purge == true) parameters.push("/purge");
             }
             if (options.action == "install") {
-                if (options.purge && options.purge == true) parameters.push("/force");
+                if (options.force && options.force == true) parameters.push("/force");
             }
             
             if (options.soothing && parseInt(options.soothing, 10) != 0) parameters.push("/soothing=" + parseInt(options.soothing, 10));
